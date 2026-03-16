@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IP Chat - Aesthetic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
+      color: white;
+    }
+
+    .login, .chat-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    input {
+      width: 250px;
+    }
+
+    button {
+      background: #6c63ff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .chat-box {
+      width: 90%;
+      max-width: 600px;
+      height: 70vh;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 10px;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background: #2e2e4d;
+    }
+
+    .message strong {
+      color: #00ffd5;
+    }
+
+    .input-area {
+      display: flex;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .input-area input {
+      flex: 1;
+    }
+
+    .input-area button {
+      width: 100px;
+    }
+  </style></head>
+<body><div class="login" id="loginPage">
+  <h2>Welcome to IP Chat</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <input type="text" id="displayName" placeholder="Your Name (Shown in chat)">
+  <button onclick="login()">Login</button>
+</div><div class="chat-container" id="chatPage" style="display:none;">
+  <h2 id="welcomeText"></h2>  <div class="chat-box" id="chatBox"></div>  <div class="input-area">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div><script>
+  let user = "";
+
+  function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const displayName = document.getElementById("displayName").value;
+
+    if (!username || !password || !displayName) {
+      alert("Fill all fields!");
+      return;
+    }
+
+    user = displayName;
+
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("chatPage").style.display = "flex";
+
+    document.getElementById("welcomeText").innerText = "Hello, " + user;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const msg = input.value;
+
+    if (!msg) return;
+
+    const chatBox = document.getElementById("chatBox");
+
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message";
+    messageDiv.innerHTML = "<strong>" + user + ":</strong> " + msg;
+
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // fake reply system
+    setTimeout(() => {
+      const reply = document.createElement("div");
+      reply.className = "message";
+      reply.innerHTML = "<strong>Server:</strong> Reply to '" + msg + "'";
+      chatBox.appendChild(reply);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }, 1000);
+
+    input.value = "";
+  }
+</script></body>
+</html>
